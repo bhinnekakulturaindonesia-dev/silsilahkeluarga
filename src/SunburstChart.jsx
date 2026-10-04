@@ -77,6 +77,8 @@ function buildSpouseMap() {
 export default function SunburstChart() {
   const containerRef = useRef(null)
   const stateRef     = useRef(null)   // menyimpan semua state D3 agar bisa di-update tanpa re-render
+  const svgD3Ref     = useRef(null)   // d3 selection svg
+  const zoomRef      = useRef(null)   // d3 zoom instance
   const [tooltip,  setTooltip]  = useState(null)
   const [info,     setInfo]     = useState(null)
   const [breadcrumb, setBreadcrumb] = useState([]) // trail navigasi
@@ -95,7 +97,21 @@ export default function SunburstChart() {
     const svg = d3.select(container)
       .append('svg').attr('width', W).attr('height', H)
 
-    const g = svg.append('g').attr('transform', `translate(${cx},${cy})`)
+    const zoomG = svg.append('g').attr('transform', `translate(${cx},${cy})`)
+
+    // Setup zoom/pan
+    const zoom = d3.zoom()
+      .scaleExtent([0.3, 10])
+      .on('zoom', (e) => {
+        zoomG.attr('transform',
+          `translate(${cx + e.transform.x},${cy + e.transform.y}) scale(${e.transform.k})`)
+      })
+    svg.call(zoom)
+    svg.on('dblclick.zoom', null)
+    svgD3Ref.current = svg
+    zoomRef.current  = zoom
+
+    const g = zoomG
 
     // ── Hierarki ──
     const hierData  = buildHierarchy()
@@ -373,10 +389,16 @@ export default function SunburstChart() {
 
   }, [])
 
+  const svgEl = () => containerRef.current?.querySelector('svg')
+
+  const handleZoomIn    = () => { if (svgD3Ref.current && zoomRef.current) svgD3Ref.current.transition().duration(300).call(zoomRef.current.scaleBy, 1.4) }
+  const handleZoomOut   = () => { if (svgD3Ref.current && zoomRef.current) svgD3Ref.current.transition().duration(300).call(zoomRef.current.scaleBy, 1/1.4) }
+  const handleZoomReset = () => { if (svgD3Ref.current && zoomRef.current) svgD3Ref.current.transition().duration(400).call(zoomRef.current.transform, d3.zoomIdentity) }
+
   const btnBase = {
     background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.25)',
-    color: '#fff', borderRadius: 6, cursor: 'pointer',
-    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    color: '#fff', width: 36, height: 36, borderRadius: 6, cursor: 'pointer',
+    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18,
   }
 
   return (
@@ -410,6 +432,16 @@ export default function SunburstChart() {
       {/* Chart + panel */}
       <div style={{ flex: 1, position: 'relative', display: 'flex', overflow: 'hidden' }}>
         <div ref={containerRef} style={{ flex: 1, height: '100%' }} />
+
+        {/* Tombol zoom */}
+        <div style={{
+          position: 'absolute', bottom: 24, right: info ? 304 : 24, zIndex: 100,
+          display: 'flex', flexDirection: 'column', gap: 8,
+        }}>
+          <button title="Zoom In"  onClick={handleZoomIn}    style={btnBase}>＋</button>
+          <button title="Zoom Out" onClick={handleZoomOut}   style={btnBase}>－</button>
+          <button title="Reset"    onClick={handleZoomReset} style={{ ...btnBase, fontSize: 14 }}>⊡</button>
+        </div>
 
         {/* Panel detail */}
         {info && (
