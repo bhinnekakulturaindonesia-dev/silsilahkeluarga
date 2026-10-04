@@ -19,19 +19,30 @@ const CARD_COLORS = {
 
 /**
  * Inject warna langsung ke .card-inner (elemen HTML kartu family-chart).
- * Dipanggil setiap kali tree dirender ulang.
+ * Kartu HTML ada di: #FamilyChart #f3Canvas #htmlSvg .cards_view .card_cont
  */
 function applyCardColors(container) {
-  container.querySelectorAll('.card_cont').forEach(el => {
+  // Kartu HTML ada di #htmlSvg, bukan di SVG
+  const htmlView = container.querySelector('#htmlSvg .cards_view')
+  const scope = htmlView || container
+
+  const cards = scope.querySelectorAll('.card_cont')
+
+  cards.forEach(el => {
     const d = el.__data__
-    if (!d?.data?.card_type) return
-    const palette = CARD_COLORS[d.data.card_type]
+    if (!d) return
+
+    // card_type ada di d.data.data (karena struktur f3: d.data = node f3, d.data.data = field data kita)
+    const cardType = d.data?.data?.card_type || d.data?.card_type
+    if (!cardType) return
+
+    const palette = CARD_COLORS[cardType]
     if (!palette) return
 
     const cardInner = el.querySelector('.card-inner')
     if (cardInner) {
-      cardInner.style.backgroundColor = palette.bg
-      cardInner.style.borderLeft      = `3px solid ${palette.border}`
+      cardInner.style.setProperty('background-color', palette.bg, 'important')
+      cardInner.style.setProperty('border-left', `3px solid ${palette.border}`, 'important')
     }
   })
 }
@@ -82,6 +93,28 @@ function App() {
       .setCardDim({ width: config.cardW, height: config.cardH })
       .setMiniTree(config.showMiniTree)
       .setStyle(config.cardStyle)
+      .setCardInnerHtmlCreator((d) => {
+        // d.data.data = field data kita, termasuk card_type
+        const cardType = d.data?.data?.card_type
+        const palette  = CARD_COLORS[cardType] || { bg: '#2a2a2a', border: '#555' }
+        const name     = d.data?.data?.['first name'] || ''
+        const bday     = d.data?.data?.birthday || ''
+        const rows     = config.rows.filter(Boolean)
+        const textRows = rows.map(r => {
+          const val = d.data?.data?.[r] || ''
+          return val ? `<div class="card-label-row" style="font-size:11px;opacity:0.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${val}</div>` : ''
+        }).join('')
+
+        return `<div style="
+          width:100%; height:100%;
+          background-color:${palette.bg};
+          border-left: 3px solid ${palette.border};
+          border-radius: 4px;
+          display:flex; flex-direction:column; justify-content:center;
+          padding: 0 8px; box-sizing:border-box; color:#fff;
+          overflow:hidden;
+        ">${textRows}</div>`
+      })
 
     if (config.hoverPathToMain) {
       card.setOnHoverPathToMain()
