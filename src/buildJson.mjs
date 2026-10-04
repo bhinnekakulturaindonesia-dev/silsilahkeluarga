@@ -2,6 +2,13 @@
  * buildJson.mjs
  * Konversi silsilah_gabungan.csv → silsilah_clean.json
  * Jalankan: node src/buildJson.mjs
+ *
+ * Kolom CSV (versi baru):
+ * ID, ID_Sebelumnya, ID_Jalur, ID_Lama, Generasi, Nama_Lengkap, Jenis_Kelamin,
+ * Marga, Peran, ID_Ayah, ID_Ibu, ID_Pasangan, Anak_Ke, Berapa_Bersaudara,
+ * Tanggal_Lahir, Status_Hidup, Pendidikan, Pekerjaan, Alamat, Kota, HP_WA,
+ * Email_Sosmed, Nama_Ayah, Nama_Ibu, Status_Data, Sumber, Catatan,
+ * Status_Garis, Penerus_Marga, Catatan_Validasi
  */
 
 import fs from 'fs'
@@ -30,7 +37,6 @@ function parseCSV(text) {
   return rows
 }
 
-/** Split satu baris CSV dengan benar (handle koma di dalam tanda kutip) */
 function splitCSVLine(line) {
   const result = []
   let cur = ''
@@ -52,19 +58,26 @@ function splitCSVLine(line) {
 }
 
 function extractYear(dateStr) {
-  if (!dateStr) return null
+  if (!dateStr || dateStr === 'Kosong') return null
   const m = dateStr.match(/^(\d{4})/)
   return m ? parseInt(m[1]) : null
 }
 
 function isPlaceholder(name) {
-  return !name || name.includes('Belum terdata') || name.includes('UNKNOWN')
+  return !name
+    || name.includes('Belum terdata')
+    || name.includes('UNKNOWN')
+    || name === 'Kosong'
 }
 
 // ── Main ───────────────────────────────────────────────────────────────────
 
 const csvText = fs.readFileSync(CSV_PATH, 'utf-8')
 const rows = parseCSV(csvText)
+
+// Debug: tampilkan header yang terdeteksi
+const sampleRow = rows[0]
+console.log('Header terdeteksi:', Object.keys(sampleRow).join(', '))
 
 // 1. Bangun persons — filter placeholder
 const persons = []
@@ -73,39 +86,43 @@ for (const r of rows) {
 
   const birthYear = extractYear(r.Tanggal_Lahir)
 
+  // Status_Garis: "Inti Sirait" | "Cabang/Non-Inti"
+  // Penerus_Marga: "Ya" | "Tidak"
+  const statusGaris   = r.Status_Garis   || ''
+  const penerusMarga  = r.Penerus_Marga  === 'Ya'
+
   persons.push({
     person_id:       r.ID,
     name:            r.Nama_Lengkap,
     gender:          r.Jenis_Kelamin === 'L' ? 'L' : 'P',
-    generation:      r.Generasi || null,
+    generation:      r.Generasi  || null,
     generation_code: r.ID_Jalur  || null,
     birth_year:      birthYear,
-    birth_date:      r.Tanggal_Lahir || null,
-    death_status:    r.Status_Hidup === 'Meninggal' ? true : false,
+    birth_date:      (r.Tanggal_Lahir && r.Tanggal_Lahir !== 'Kosong') ? r.Tanggal_Lahir : null,
+    death_status:    r.Status_Hidup === 'Meninggal',
     education:       r.Pendidikan   || '',
-    occupation:      r.Pekerjaan    || '',
-    address:         r.Alamat       || '',
-    city:            r.Kota         || '',
-    phone:           r.HP_WA        || '',
-    email_social:    r.Email_Sosmed || '',
+    occupation:      (r.Pekerjaan   && r.Pekerjaan   !== 'Kosong') ? r.Pekerjaan   : '',
+    address:         (r.Alamat      && r.Alamat       !== 'Kosong') ? r.Alamat      : '',
+    city:            (r.Kota        && r.Kota         !== 'Kosong') ? r.Kota        : '',
+    phone:           (r.HP_WA       && r.HP_WA        !== 'Kosong') ? r.HP_WA       : '',
+    email_social:    (r.Email_Sosmed && r.Email_Sosmed !== 'Kosong') ? r.Email_Sosmed : '',
     marga:           r.Marga        || '',
     role:            r.Peran        || '',
+    status_garis:    statusGaris,
+    penerus_marga:   penerusMarga,
     data_status:     r.Status_Data  || '',
     notes:           r.Catatan      || '',
     is_generated:    false,
   })
 }
 
-// Buat set ID valid (non-placeholder)
+// Set ID valid (non-placeholder)
 const validIds = new Set(persons.map(p => p.person_id))
 
 // 2. Bangun relasi
-
-const parent_child = []  // { parent_id, child_id }
-const spouse       = []  // { husband_id, wife_id }
-
-// Lacak pasangan yang sudah dicatat agar tidak duplikat
-const spousePairs = new Set()
+const parent_child = []
+const spouse       = []
+const spousePairs  = new Set()
 
 for (const r of rows) {
   if (isPlaceholder(r.Nama_Lengkap)) continue
@@ -126,7 +143,6 @@ for (const r of rows) {
     const key = [a, b].sort().join('|')
     if (!spousePairs.has(key)) {
       spousePairs.add(key)
-      // Tentukan siapa husband/wife berdasar gender
       const personA = persons.find(p => p.person_id === a)
       const personB = persons.find(p => p.person_id === b)
       if (personA && personB) {
@@ -140,7 +156,7 @@ for (const r of rows) {
   }
 }
 
-// Hapus duplikat parent_child (bisa muncul dari sisi ayah DAN sisi anak yg sama)
+// Dedup parent_child
 const pcSeen = new Set()
 const parent_child_dedup = parent_child.filter(({ parent_id, child_id }) => {
   const key = `${parent_id}|${child_id}`
@@ -160,8 +176,16 @@ const output = {
 
 fs.writeFileSync(JSON_PATH, JSON.stringify(output, null, 2), 'utf-8')
 
-console.log(`✅ Selesai!`)
+console.log(`\n✅ Selesai!`)
 console.log(`   Persons      : ${persons.length}`)
 console.log(`   Parent-child : ${parent_child_dedup.length}`)
 console.log(`   Spouse       : ${spouse.length}`)
+
+// Statistik status_garis
+const inti    = persons.filter(p => p.status_garis === 'Inti Sirait').length
+const cabang  = persons.filter(p => p.status_garis === 'Cabang/Non-Inti').length
+const penerus = persons.filter(p => p.penerus_marga).length
+console.log(`   Inti Sirait  : ${inti}`)
+console.log(`   Cabang/Non-Inti: ${cabang}`)
+console.log(`   Penerus Marga: ${penerus}`)
 console.log(`   Output       : ${JSON_PATH}`)

@@ -1,13 +1,11 @@
 import rawData from './silsilah_clean.json'
 
 // Ambil semua foto di src/assets/photos otomatis saat build.
-// Nama file HARUS sama persis dengan person_id, contoh: 3.21.jpg, 4.1-P.png
 const photoModules = import.meta.glob(
   '/src/assets/photos/*.{jpg,jpeg,png,JPG,JPEG,PNG}',
   { eager: true, import: 'default' }
 )
 
-// index: { "3.21": "/assets/3.21-abc123.jpg", ... }
 const photoIndex = {}
 for (const path in photoModules) {
   const filename = path.split('/').pop()
@@ -20,18 +18,26 @@ function getPhotoUrl(person_id) {
 }
 
 /**
- * Urutan anak berdasarkan generation_code (ID_Jalur).
- * Format: "1.5.1.1" → ambil angka terakhir.
+ * Urutan sorting anak:
+ * 1. Laki-laki (L) didahulukan → perempuan (P) belakangan  [prioritas Batak]
+ * 2. Dalam kelompok yang sama, urutkan by Anak_Ke (angka terakhir generation_code)
  */
-function getChildOrder(person) {
-  if (!person.generation_code) return 999
-  const parts = person.generation_code.split('.')
-  return parseInt(parts[parts.length - 1]) || 999
+function getChildSortKey(person) {
+  const genderOrder = person.gender === 'L' ? 0 : 1
+  const parts = (person.generation_code || '').split('.')
+  const childOrder = parseInt(parts[parts.length - 1]) || 999
+  return [genderOrder, childOrder]
+}
+
+function compareChildOrder(a, b) {
+  const [ga, oa] = getChildSortKey(a)
+  const [gb, ob] = getChildSortKey(b)
+  if (ga !== gb) return ga - gb
+  return oa - ob
 }
 
 /**
  * Format tanggal lahir: "1976-10-21" → "21 Okt 1976"
- * Kalau tidak ada tanggal lengkap, gunakan tahun saja.
  */
 const BULAN_ID = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des']
 
@@ -47,6 +53,29 @@ function formatBirthDate(person) {
   return person.birth_year ? String(person.birth_year) : ''
 }
 
+/**
+ * Tentukan tipe kartu untuk pewarnaan:
+ *
+ * 'sirait-male'    → Laki-laki Sirait (penerus marga, garis inti)
+ * 'sirait-female'  → Perempuan Sirait (boru, garis inti tapi tidak penerus)
+ * 'spouse-male'    → Suami dari boru Sirait (laki-laki luar marga)
+ * 'spouse-female'  → Istri dari laki-laki Sirait (perempuan luar marga)
+ * 'branch-male'    → Keturunan laki-laki dari boru Sirait (cabang)
+ * 'branch-female'  → Keturunan perempuan dari boru Sirait (cabang)
+ */
+export function getCardType(person) {
+  const isLaki  = person.gender === 'L'
+  const isInti  = person.status_garis === 'Inti Sirait'
+  const isPenerus = person.penerus_marga === true
+
+  if (isInti && isPenerus && isLaki)  return 'sirait-male'    // laki Sirait penerus marga
+  if (isInti && !isPenerus && !isLaki) return 'sirait-female' // boru Sirait
+  if (isInti && !isPenerus && isLaki)  return 'sirait-male'   // laki Sirait (non-penerus edge case)
+  if (!isInti && isLaki)  return person.role === 'Pasangan' ? 'spouse-male'   : 'branch-male'
+  if (!isInti && !isLaki) return person.role === 'Pasangan' ? 'spouse-female' : 'branch-female'
+  return 'sirait-male'
+}
+
 export function convertToF3() {
   const { persons, relationships } = rawData
   const { parent_child, spouse } = relationships
@@ -59,7 +88,7 @@ export function convertToF3() {
       .filter(s => s.husband_id === id || s.wife_id === id)
       .map(s => s.husband_id === id ? s.wife_id : s.husband_id)
 
-    // Cari anak, urutkan berdasarkan generation_code
+    // Cari anak → L didahulukan, baru P
     const childIds = [...new Set(
       parent_child
         .filter(r => r.parent_id === id)
@@ -69,7 +98,7 @@ export function convertToF3() {
     const children = childIds
       .map(childId => persons.find(p => p.person_id === childId))
       .filter(Boolean)
-      .sort((a, b) => getChildOrder(a) - getChildOrder(b))
+      .sort(compareChildOrder)
       .map(p => p.person_id)
 
     // Cari orang tua
@@ -78,8 +107,8 @@ export function convertToF3() {
       .map(r => r.parent_id)
 
     const photoUrl = getPhotoUrl(id)
+    const cardType = getCardType(person)
 
-    // Nama dengan penanda meninggal
     const displayName = person.death_status
       ? `${person.name} (+)`
       : person.name
@@ -90,15 +119,17 @@ export function convertToF3() {
         "first name":   displayName,
         "last name":    "",
         "birthday":     formatBirthDate(person),
-        "gender":       person.gender === "L" ? "M" : "F",
-        "occupation":   person.occupation  || "",
-        "education":    person.education   || "",
-        "generation":   person.generation  ? `Gen ${person.generation}` : "",
-        "address":      person.address     || "",
-        "city":         person.city        || "",
-        "phone":        person.phone       || "",
-        "email":        person.email_social || "",
-        "marga":        person.marga       || "",
+        "gender":       person.gender === 'L' ? 'M' : 'F',
+        "occupation":   person.occupation   || '',
+        "education":    person.education    || '',
+        "generation":   person.generation   ? `Gen ${person.generation}` : '',
+        "address":      person.address      || '',
+        "city":         person.city         || '',
+        "phone":        person.phone        || '',
+        "email":        person.email_social || '',
+        "marga":        person.marga        || '',
+        // Simpan tipe kartu di data agar bisa diakses saat render
+        "card_type":    cardType,
         ...(photoUrl && { avatar: photoUrl })
       },
       rels: {
