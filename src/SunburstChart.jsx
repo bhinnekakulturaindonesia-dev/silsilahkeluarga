@@ -102,7 +102,7 @@ export default function SunburstChart() {
 
     const W = container.clientWidth  || 800
     const H = container.clientHeight || 800
-    const radius = Math.min(W, H) / 2 - 10
+    const radius = Math.min(W, H) / 2 - 4
 
     d3.select(container).selectAll('*').remove()
 
@@ -153,33 +153,48 @@ export default function SunburstChart() {
       .attr('stroke-width', 0.5)
       .style('cursor', 'pointer')
 
-    // Label di arc (hanya jika arc cukup lebar)
-    g.selectAll('text')
-      .data(root.descendants().filter(d => {
-        if (d.depth === 0) return false
-        const angle = (d.x1 - d.x0) * (d.y0 + d.y1) / 2
-        return angle > 20 // cukup besar untuk label
-      }))
-      .join('text')
-      .attr('transform', d => {
-        const angle = (d.x0 + d.x1) / 2
-        const r = (d.y0 + d.y1) / 2
-        const rotate = angle * 180 / Math.PI - 90
-        return `rotate(${rotate}) translate(${r},0) rotate(${rotate > 90 && rotate < 270 ? 180 : 0})`
-      })
-      .attr('dy', '0.35em')
-      .attr('text-anchor', 'middle')
-      .attr('fill', '#fff')
-      .attr('font-size', d => Math.max(7, 11 - d.depth))
-      .attr('pointer-events', 'none')
-      .text(d => {
-        // Ambil nama pendek
-        const name = d.data.name || ''
-        const arcLen = (d.x1 - d.x0) * (d.y0 + d.y1) / 2
-        if (arcLen < 30) return ''
-        if (arcLen < 60) return name.split(' ')[0]
-        return name.length > 18 ? name.slice(0, 16) + '…' : name
-      })
+    // Label di arc — tampilkan SEMUA nama, adaptif ukuran & panjang
+    const labelData = root.descendants().filter(d => d.depth > 0)
+
+    labelData.forEach(d => {
+      const midAngle   = (d.x0 + d.x1) / 2
+      const midRadius  = (d.y0 + d.y1) / 2
+      const arcSpan    = d.x1 - d.x0                   // sudut arc (radian)
+      const arcLength  = arcSpan * midRadius             // panjang busur (px)
+      const arcHeight  = (d.y1 - d.y0) - 4             // tinggi cincin (px)
+
+      // Font adaptif: makin kecil arc, makin kecil font
+      const fontSize   = Math.min(11, Math.max(6, arcLength / 12))
+
+      // Panjang karakter yang muat
+      const charWidth  = fontSize * 0.55
+      const maxChars   = Math.floor(arcLength / charWidth)
+
+      if (maxChars < 2) return  // terlalu kecil, skip
+
+      // Nama: kalau muat, tampilkan lengkap, kalau tidak — first name / singkatan
+      const fullName = d.data.name || ''
+      const parts    = fullName.replace(' (+)', '').split(' ')
+      let label = fullName
+      if (label.length > maxChars) label = parts[0]           // first name
+      if (label.length > maxChars) label = label.slice(0, maxChars - 1) + '…'
+
+      // Rotasi agar teks mengikuti arah arc
+      const rotateDeg  = midAngle * 180 / Math.PI - 90
+      const flip       = rotateDeg > 90 && rotateDeg < 270
+
+      g.append('text')
+        .attr('transform',
+          `rotate(${rotateDeg}) translate(${midRadius},0) rotate(${flip ? 180 : 0})`)
+        .attr('dy', '0.35em')
+        .attr('text-anchor', 'middle')
+        .attr('fill', '#fff')
+        .attr('font-size', fontSize)
+        .attr('font-family', 'sans-serif')
+        .attr('pointer-events', 'none')
+        .attr('opacity', 0.92)
+        .text(label)
+    })
 
     // Label center
     const centerLabel = g.append('text')
