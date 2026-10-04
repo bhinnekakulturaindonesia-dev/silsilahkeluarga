@@ -1,0 +1,69 @@
+﻿Timestamp,GENERASI,ID Generasi,Nama Lengkap,Nama Ayah,Nama Ibu,Anak Ke,Berapa Bersaudara,Alamat Lengkap,Kota,Tanggal Lahir,Pendidikan,Pekerjaan,Nomor HP/WA,"Email, Media Sosial (FB, IG, dan Twitter)"
+,2,1.5,Justin Sirait,,,,,,,,,,,
+,2,1.5,Ulianna Br Gurning,,,,,,,,,,,
+14/09/2021 10:27,2,1.5.1,Raja Pangihutan Sirait,Justin Sirait,Ulianna Br Gurning,3,9,Jl. Nusa Permai Malibu Blok A No. 65 Medan,Medan ,17/08/1956,S1,Wiraswasta,811633333,@rajasirait333
+14/09/2021 10:32,2,1.5.1,Lucynda Tanjung,Elman Tanjung,Frida Hutagalung,6,7,Jl. Nusa Permai Malibu Blok A No. 65 Medan,Medan ,31/01/1961,SMA,Ibu rumah tangga,HP: 0811610333 WA: 081370462333,@luci_delucious
+14/09/2021 11:07,3,1.5.1.1,Franky Partogi Wijaya Sirait,Raja Pangihutan Sirait,Lucynda Tanjung,5,5,Jl Nusa Permai Malibu A no 65,Medan ,14/04/1989,S1,Wiraswasta,811638555,"Email: miduk_srt@rocketmail.com, IG: @ogi_srt FB : ogi ogi"
+14/09/2021 11:08,3,1.5.1.1,Revinanda Pangaribuan,Roy Pangaribuan,Linda Kaban,2,3,"Jl nusa permai malibu a no 65,medan",Medan ,01/10/1990,S1,Dokter,8116553300,"Email: nanda.pangaribuan@yahoo.com, fb: nanda pangaribuan, ig: @nandapangaribuan"
+14/09/2021 11:09,4,1.5.1.1.1,Ralana Priyanka Sirait,Franky Partogi Wijaya Sirait,Revinanda Venincia Pangaribuan,1,2,"Jl nusa permai malibu a no 65,medan",Medan ,24/09/2019,-,-,-,-
+14/09/2021 11:10,4,1.5.1.1.2,Rex Jedidiah Sirait,Franky Partogi Wijaya Sirait,Revinanda Venincia Pangaribuan,2,2,"Jl nusa permai malibu a no 65,medan",Medan ,16/06/2021,-,-,-,-
+14/09/2021 10:35,3,1.5.1.2,Miduk Sirait,Raja Pangihutan Sirait,Lucynda Tanjung,1,5,Jl. Nusa permai malibu Blok A No. 65 Medan,Medan ,25/08/1977,-,-,-,-
+14/09/2021 12:02,3,1.5.1.3,Easter Tiur Magdalena Sirait,Raja Pangihutan Sirait,Lucynda Tanjung,2,5,Jl. Alam Pesanggrahan IV Blok OH-19 No. 31 Cinere - Depok,Medan ,11/04/1982,S2,Wiraswasta,811610333,@eastersirait
+14/09/2021 12:05,4,1.5.1.3.2,Zefanya Ruth Annabelle Simorangkir,Ferdinand Dermawan Simorangkir,Easter Tiur Magdalena Sirait,1,3,Jl. Alam Pesanggrahan IV Blok OH-19 No. 31 Cinere - Depok,Medan ,24/10/2012,SD,Pelajar,-,-
+14/09/2021 12:11,4,1.5.1.3.1,Reinhart Abiel Yishai Simorangkir,Ferdinand Dermawan Simorangkir,Easter Tiur Magdalena Sirait,2,3,Jl. Alam Pesanggrahan IV Blok OH-19 No. 31 Cinere - Depok,Medan ,29/07/2015,SD,Pelajar,,
+14/09/2021 12:07,4,1.5.1.3.3,Annaliese Leah Princesa Simorangkir,Ferdinand Dermawan Simorangkir,Easter Tiur Magdalena Sirait,3,3,Jl. Alam Pesanggrahan IV Blok OH-19 No. 31 Cinere - Depok,Medan ,13/10/2020,,,,
+xxxx,3,1.5.1.4,xxxx,Raja Pangihutan Sirait,Lucynda Tanjung,,,,,,,,,
+xxxx,3,1.5.1.4,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx
+xxxx,3,1.5.1.5,xxxx,Raja Pangihutan Sirait,Lucynda Tanjung,xxxx,xxxx,xxxx,,,,,,
+xxxx,3,1.5.1.5,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx
+15/09/2021 16:10,2,1.5.2,Robert Dorman Sirait,Justin Sirait ,Ulianna Br Gurning,4,9,"Jln. Sei Batang Serangan No. 86, Medan, Sumatera Utara ",Medan ,31/08/1958,Strata 1 (S1) Ekonomi,Wiraswasta,0813-6529-8333,Tidak punya sosial media
+15/09/2021 19:20,2,1.5.2,Junita Herlina Gultom,J H Gultom,S Simanjuntak,7,9,"Jln Sei Batang Serangan No 86, Medan, Sumatera Utara",Medan ,09/06/1962,D3 PAP,Ibu Rumah Tangga,0813-6400-7423,FB : Butet Junita Gultom
+14/09/2021 11:19,3,1.5.2.1,Raymond Lukas Hadianto Sirait ,Robert Dorman Sirait,Junita Herlina Gultom,2,4,"Jln Sei Batang Serangan No 86, Medan, Sumatera Utara ",Medan ,19/04/1995,Strata 1 (S1) Kesehatan Masyarakat,Karyawan ,0812-6887-7633,IG : raymondsrt
+14/09/2021 14:55,3,1.5.2.2,Rizky Imannuel Sirait ,Robert Dorman Sirait,Junita Herlina Gultom,3,4,"Jln. Sei Batang Serangan No. 86, Medan, Sumatera Utara",Medan ,26/11/1996,sedang menjalani Strata 1 (S1),Mahasiswa ,0857-3745-1545,IG : rizkyimannuel 
+15/09/2021 15:22,3,1.5.2.3,Rainhard Hizkya Mauliate Sirait ,Robert Dorman Sirait,Junita Herlina Gultom,4,4,"U 45 Residence, Jl. Palmerah Barat VI No.45, RT.9/RW.15, Palmerah, Kec. Palmerah, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11480",Jakarta,18/05/1998,sedang menjalani Strata 1 (S1),Mahasiswa ,WA : +62 813-9639-7308,IG : rainhardsirait
+14/09/2021 11:11,3,1.5.2.4,Josephine Giovana Vinezia Sirait ,Robert Dorman Sirait,Junita Herlina Gultom,1,4,"Jln. Sei Batang Serangan No 86 , Medan, Sumatera Utara ",Medan ,03/01/1994,Strata 1 (S1),Karyawan Swasta ,wa : 0823-6544-4438 ,IG : jochypine 
+14/09/2021 11:43,2,1.5.3,Brisben Sirait,Justin Sirait,Ulianna Br Gurning,7,9,"Jl. Kertas Tik No. 1, Kel. Siopat Suhu Kec. Siantar Timur Kota Pematangsiantar 21136",Pematangsiantar,22/02/1963,S1,Wiraswasta,8116142333,Brisben Sirait
+14/09/2021 11:46,2,1.5.3,Hanna Dumaris Lumbantobing,Oloan Tobing,Elsye br Tampubolon,1,5,"Jl. Kertas Tik No. 1, Kel. Siopat Suhu Kec. Siantar Timur Kota Pematangsiantar 21136",Pematangsiantar,13/05/1968,S1,Wiraswasta,811621811,-
+14/09/2021 11:38,3,1.5.3.1,Petrus Stuart Mller Sirait,Brisben Sirait,Hanna Dumaris Lumbantobing,1,2,"Jl. Kertas Tik No. 1 Pematangsiantar, Ke. Siopat Suhu Kec. Siantar Timur Kota Pematangsiantar 21136",Pematangsiantar,11/04/1997,S1,Wiraswasta,81396500777,peterstums
+14/09/2021 11:41,3,1.5.3.2,Paulus George Sirait,Brisben Sirait,Hanna Dumaris Lumbantobing,2,2,"Jl. Kertas Tik No. 1, Kel. Siopat Suhu Kec. Siantar Timur Kota Pematangsiantar 21136",Pematangsiantar,02/07/2005,SMA,Pelajar,8116502333,paulus_george_sirait
+xxxx,2,1.5.4,xxxx,Justin Sirait,Ulianna Br Gurning,8,9,xxxxxx,x,xxxxxx,xxxxxx,xxxxxx,xxxxxx,xxxxxx
+xxxx,2,1.5.4,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx
+14/09/2021 13:53,2,1.5.5,Rajamin Sirait SE,Justin Sirait,Ulianna Br Gurning,9,9,Kom Cemara Hijau blok F no 45-46,xxxx,25/03/1966,Sarjana Ekonomi,Wiraswasta,82167053474,siraitrajamin@gmail.com
+xxxx,2,1.5.5,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx
+14/09/2021 11:27,2,1.5.6,Rohana Flora Sirait,Justin Sirait,Ulianna Br Gurning,1,9,Jl. Dr. Kasih Blok A. No.9. ( dekat STIE Kasih Bangsa). Kebun Jeruk. Jakarta Barat.,Jakarta,21/08/1952,SMA,Ibu rumah tangga,6.28E+12,R. Flora Sirait
+16/09/2021 19:43,2,1.5.6,Toga Oloan Panjaitan,Dahu Panjaitan ,Igo Br. Siagian  ,5,8,"Jl. E Ujung Kavling Agung Podomoro Blok A-9 Kebun Jeruk, Jakarta Barat ",Jakarta,25/12/1940,S1-Teknik Kimia,Pensiunan Pegawai Negri Sipil ,+62Â 811Â 9412313 / +62Â 878Â 37731763 (WA),Tidak ada 
+18/09/2021 16:36,3,1.5.6.1,Rolan Erick Marasal Panjaitan,Toga Oloan Panjaitan,Rohana Flora Sirait,1,4,"BSD City, De Park, Cluster De Cajuputi Blok AA6 no.2, Jln.Bumi Foresta, Tangerang Banten",Tangerang,19/09/1972,S2,Karyawan BUMN,811611972,rolanacp1234@gmail.com
+14/09/2021 11:14,3,1.5.6.1,Netty Berliana Hutapea,Demak Faris Hutapea,Mastiur Simatupang,6,7,"de park cluster de cakuputi blok AA6 no 2 BSD City, Tangerang 15331",Tangerang,22/07/1971,D3,Ibu Rumah Tangga,8126097971,netty_berliana@yahoo.com
+20/09/2021 16:51,4,1.5.6.1.1,Angelin Panjaitan,Rolan Erick Marasal Panjaitan,Netty Berliana Hutapea,1,2,De Park BSD,Tangerang,24/04/2000,Kuliah,Pelajar,-,angiepanjaitan
+14/09/2021 11:40,4,1.5.6.1.2,Christovan Yesayas Mulahabinsaran Panjaitan,Rolan Erick Marasal Panjaitan,Netty Berliana Hutapea,2,2,"De Park Cluster De Cajuputi Blok AA6 No.2, BSD City, Tangerang",Tangerang,29/12/2002,S1 (2021- ),Mahasiswa,81288337629,christovan.panjaitan@gmail.com
+17/09/2021 14:17,3,1.5.6.2,Joy Andrew Jagardo Panjaitan,Toga Oloan Panjaitan ,Rohana Flora Sirait,3,4,Jl. Dr. Kasih Blok A. No.9. ( dekat STIE Kasih Bangsa). Kebun Jeruk. Jakarta Barat.,Jakarta,01/04/1977,Diploma ,Wiraswasta,81362263933,jpandjaitan@yahoo.com
+xxxx,3,1.5.6.2,Stevi FR Lumbantobing,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx
+17/09/2021 14:36,4,1.5.6.2.1,Ruth Elena Francine Panjaitan,Joy Andrew Jagardo Panjaitan,Stevi FR Lumbantobing,1,1,Jl. Dr. Kasih Blok A No.9. ( Dekat STIE Kasih Bangsa). Kebun Jeruk. Jakarta Barat.,Jakarta,26/08/2019,Belum sekolah,Belum bekerja,81362263933,jpandjaitan@yahoo.com
+16/09/2021 21:16,3,1.5.6.3,Irvin Nelson Morado,Toga Oloan Panjaitan ,Rohana Flora Sirait,4,4,Jl. E ujung kav Agung Podomoro blok a/8,Jakarta,19/02/1981,Sarjana,Wiraswasta,87882016464,irvinmorado@yahoo.com
+16/09/2021 12:47,3,1.5.6.4,Gressy Sylvia Cornelia ,Toga Oloan Panjaitan ,Rohana Flora Sirait,2,4,"Jl. E Ujung Kavling Agung Podomoro Blok A-9 Kebun Jeruk, Jakarta Barat",Jakarta,23/08/1974,S2 - Magister Profesi Psikologi,Karyawan Swasta,87876642223,FB : Gressy Sylvia Cornelia 
+16/09/2021 08:39,2,1.5.7,Hotnida Sirait,Justin Sirait,Ulianna Br Gurning,2,9,Sei Bahbolon 33 Medan 20154,Medan ,23/05/1954,S2,Ibu rumah tangga,81361611333,FB Hotnida Sirait 
+16/09/2021 12:17,2,1.5.7,Rudolf Valentino Panggabean,Humala Toga Mulia Panggabean,Serepina Pardede,1,1,Sei Bahbolon 33 Medan 20154,Medan ,11/06/1954,.,.,.,.
+27/09/2021 16:24,3,1.5.7.1,Daniel Riandy Darmawan Panggabean ,Rudolf Valentino Panggabean,Hotnida Sirait,3,4,Jalan tanjung permai IX no.154 komp BTN,xxxx,23/11/1984,S2,Wiraswasta,8126501073,
+16/09/2021 11:52,3,1.5.7.2,Anggiat Firman Basarma Panggabean,Rudolf Valentino Panggabean,Hotnida Sirait,4,4,Kalibata City Unit N/16/CG. Jalan Kalibata Raya No. 1 Jakarta Selatan,Jakarta,28/05/1987,Sarjana,Pegawai BUMN,81362024333,
+16/09/2021 11:54,3,1.5.7.2,Anggreini Permata Utami Purba,Antoni Purba,Dian Sitompul,1,5,Apartemen Kalibata City Unit N/16/CG. Jalan Kalibata Raya No.1 Jakarta Selatan,Jakarta,11/08/1990,Sarjana,Pegawai Negeri,81281760022,anggreini.purba@gmail.com
+16/09/2021 12:03,4,1.5.7.2.1,Andrea Gracia Emmanuela Panggabean,Anggiat Panggabean,Anggreini Permata Utami Purba,1,1,"Apartemen Kalibata City Unit N/16/CG. Jalan Kalibata Raya No. 1 Jakarta Selatan
+",Jakarta,17/06/2020,-,-,-,-
+16/09/2021 08:42,3,1.5.7.3,Priska Basariana Panggabean,Rudolf Valentino Panggabean,Hotnida Sirait,1,4,"Debang Taman Sari A29, Jln. Flamboyan Raya No.100 Medan 20135",Medan ,24/09/1979,S2,Ibu rumah tangga,81264203333,
+16/09/2021 08:44,3,1.5.7.3,Dat Iman Surana,Maju Saragih,Namphaty Tarigan,4,5,"Debang Taman Sari A29, Jln Flamboyan Raya no.100 Medan 20135",Medan ,13/05/1978,S1,Karyawan Swasta,811651305,.
+16/09/2021 08:46,4,1.5.7.3.1,Nehemia Asadika Tumogihon Saragih,Dat Iman Surana,Priska Basariana Panggabean,1,3,"Debang Taman Sari A29, Jln Flamboyan Raya no.100 Medan 20135",Medan ,03/11/2011,.,.,.,.
+16/09/2021 08:47,4,1.5.7.3.2,Haggai Amourdika Nahasea Saragih,Dat Iman Surana,Priska Basariana Panggabean,2,3,"Debang Taman Sari A29, Jln Flamboyan Raya no.100 Medan 20135",Medan ,15/05/2014,.,.,.,.
+16/09/2021 08:51,4,1.5.7.3.3,Eirene Harauli Narisdika Saragih,Dat Iman Surana,Priska Basariana Panggabean,3,3,"Debang Taman Sari A29, Jln Flamboyan no.100 Medan 20135",Medan ,07/07/2021,.,.,.,.
+16/09/2021 09:51,3,1.5.7.4,Dame Rotua Renova Panggabean,Rudolf Valentino Panggabean,Hotnida Sirait,2,4,Jln Sakura III no. 3 Medan 20131,Medan ,06/09/1981,S1,Ibu rumah tangga,81260439333,
+16/09/2021 09:53,3,1.5.7.4,Regen Salem V. Sinaga,S.B. Sinaga,Omarianon Habeahan,5,7,Jln Sakura III no 3 Medan 20131,Medan ,16/09/1980,S1,Karyawan Swasta,81376640333,FB Regen Sinaga
+16/09/2021 09:55,4,1.5.7.4.1,Yemima Asiro Naulitha Sinaga,Regen Salem V. Sinaga,Dame Rotua Renova Panggabean,1,2,Jln Sakura III no 3 Medan 20131,Medan ,21/09/2013,.,.,. ,.
+16/09/2021 09:57,4,1.5.7.4.2,Jasmine Amoura Hosiana Sinaga,Regen Salem V. Sinaga,Dame Rotua Renova Panggabean,1,2,Jln Sakura III no 3 Medan 20131,Medan ,21/09/2013,.,.,. ,.
+14/09/2021 14:56,2,1.5.8,Bernike Lorita Sirait,Justin Sirait,Ulianna Br Gurning,5,9,"Jl. Sei Putih Baru no.6B, Medan",Medan ,09/06/1960,S-2,Ibu Rumah Tangga,81265319288,-
+14/09/2021 14:55,2,1.5.8,Setin Damanik,I.Manik,Simangunsong,5,9,"JL. Sei Putih Baru no.6b, Medan",Medan ,17/07/1957,S-1,Pensiunan,811618661,-
+xxxx,xxxx,xxxx,xxxx,Setin Damanik,Bernike Lorita Sirait,1,3,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx
+14/09/2021 11:13,3,1.5.8.2,Eigar Lamgok Tardok,Setin Damanik,Bernike Lorita Sirait,2,3,"Jl. Sei Putih Baru no.6b, Medan",Medan ,09/01/1997,S-1,Karyawan Swasta,85922140722,eigarltd
+xxxx,xxxx,xxxx,xxxx,Setin Damanik,Bernike Lorita Sirait,3,3,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx
+16/09/2021 11:40,2,1.5.9,Suryatna Aslinda Sirait,Justin Sirait,Ulianna Br Gurning,6,9,Jalan Fajar Damai I No. 15-17,Jakarta,06/08/1961,S1,Ibu Rumah Tangga,6.28E+12,-
+16/09/2021 11:32,2,1.5.9,"Drs. Mangaraja Pangihutan Hutauruk, M. Sc.",M. H. Hutauruk,S. M. T. Situmeang,6,11,Jalan Fajar Damai I No. 15-17,Jakarta,03/05/1958,S2,Swasta,62811103592,-
+xxxx,xxxx,xxxx,xxxx,M. H. Hutauruk,S. M. T. Situmeang,1,3,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx
+16/09/2021 11:30,3,1.5.9.2,Kristofel Hutauruk,"Drs. Mangaraja Pangihutan Hutauruk, M. Sc.",Suryatna Aslinda Sirait,2,3,Jalan Fajar Damai I No. 15-17,Jakarta,27/12/1990,S2,Aparatur Sipil Negara,6.28E+12,kristofel.hutauruk@gmail.com
+xxxx,xxxx,xxxx,xxxx,"Drs. Mangaraja Pangihutan Hutauruk, M. Sc.",Suryatna Aslinda Sirait,3,3,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,
