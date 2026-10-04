@@ -7,30 +7,32 @@ import Configure from './Configure'
 
 const { manualZoom } = f3.handlers || {}
 
-// Legend warna kartu
-const LEGEND = [
-  { type: 'sirait-male',    color: '#1a3a5c', border: '#4a90d9', label: 'Laki-laki Sirait (penerus marga)' },
-  { type: 'sirait-female',  color: '#5c1a2e', border: '#e87da0', label: 'Perempuan Sirait (boru)' },
-  { type: 'spouse-female',  color: '#3a1f5c', border: '#a78bfa', label: 'Istri dari laki-laki Sirait' },
-  { type: 'spouse-male',    color: '#1a3d2e', border: '#4ade80', label: 'Suami dari boru Sirait' },
-  { type: 'branch-male',    color: '#0f3340', border: '#22d3ee', label: 'Keturunan laki dari boru (cabang)' },
-  { type: 'branch-female',  color: '#3d2010', border: '#fb923c', label: 'Keturunan perempuan dari boru (cabang)' },
-]
+// Palet warna per tipe kartu
+const CARD_COLORS = {
+  'sirait-male':    { bg: '#1a3a5c', border: '#4a90d9' }, // laki Sirait — biru tua
+  'sirait-female':  { bg: '#5c1a2e', border: '#e87da0' }, // boru Sirait — rose
+  'spouse-female':  { bg: '#3a1f5c', border: '#a78bfa' }, // istri laki Sirait — ungu
+  'spouse-male':    { bg: '#1a3d2e', border: '#4ade80' }, // suami boru Sirait — hijau
+  'branch-male':    { bg: '#0f3340', border: '#22d3ee' }, // keturunan laki cabang — teal
+  'branch-female':  { bg: '#3d2010', border: '#fb923c' }, // keturunan perempuan cabang — oranye
+}
 
 /**
- * Inject class warna ke semua .card_cont berdasarkan data card_type
+ * Inject warna langsung ke .card-inner (elemen HTML kartu family-chart).
  * Dipanggil setiap kali tree dirender ulang.
  */
 function applyCardColors(container) {
   container.querySelectorAll('.card_cont').forEach(el => {
     const d = el.__data__
     if (!d?.data?.card_type) return
-    const type = d.data.card_type
-    // Hapus semua class warna sebelumnya
-    el.classList.forEach(cls => {
-      if (cls.startsWith('f3-card-')) el.classList.remove(cls)
-    })
-    el.classList.add(`f3-card-${type}`)
+    const palette = CARD_COLORS[d.data.card_type]
+    if (!palette) return
+
+    const cardInner = el.querySelector('.card-inner')
+    if (cardInner) {
+      cardInner.style.backgroundColor = palette.bg
+      cardInner.style.borderLeft      = `3px solid ${palette.border}`
+    }
   })
 }
 
@@ -38,8 +40,7 @@ function App() {
   const chartRef       = useRef(null)
   const chartInstance  = useRef(null)
   const svgRef         = useRef(null)
-  const [showConfig,   setShowConfig]   = useState(false)
-  const [showLegend,   setShowLegend]   = useState(true)
+  const [showConfig, setShowConfig]   = useState(false)
   const [config, setConfig] = useState({
     rows: ['first name', 'birthday'],
     cardW: 260,
@@ -165,13 +166,6 @@ function App() {
         >
           ⚙️ Konfigurasi
         </button>
-        <button
-          onClick={() => setShowLegend(v => !v)}
-          title="Tampilkan/sembunyikan legenda"
-          style={{ ...btnBase, width: 'auto', padding: '0 14px', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}
-        >
-          🎨 Legenda
-        </button>
       </div>
 
       {/* Tombol zoom kanan bawah */}
@@ -181,21 +175,6 @@ function App() {
         <button title="Fit semua" onClick={handleFit}     style={{ ...btnBase, fontSize: 14 }}>⊡</button>
         <button title="Ke akar"   onClick={handleReset}   style={{ ...btnBase, fontSize: 14 }}>⌂</button>
       </div>
-
-      {/* Legenda warna */}
-      {showLegend && (
-        <div className="color-legend">
-          {LEGEND.map(item => (
-            <div key={item.type} className="color-legend-item">
-              <div
-                className="color-legend-dot"
-                style={{ background: item.color, borderColor: item.border }}
-              />
-              <span>{item.label}</span>
-            </div>
-          ))}
-        </div>
-      )}
 
       {showConfig && (
         <Configure
