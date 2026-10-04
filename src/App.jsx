@@ -4,6 +4,7 @@ import 'family-chart/styles/family-chart.css'
 import './App.css'
 import { convertToF3 } from './convertData'
 import Configure from './Configure'
+import SunburstChart from './SunburstChart'
 
 const { manualZoom } = f3.handlers || {}
 
@@ -51,7 +52,8 @@ function App() {
   const chartRef       = useRef(null)
   const chartInstance  = useRef(null)
   const svgRef         = useRef(null)
-  const [showConfig, setShowConfig]   = useState(false)
+  const [activeTab,  setActiveTab]  = useState('pohon') // 'pohon' | 'sunburst'
+  const [showConfig, setShowConfig] = useState(false)
   const [config, setConfig] = useState({
     rows: ['first name', 'birthday'],
     cardW: 260,
@@ -66,6 +68,7 @@ function App() {
   })
 
   useEffect(() => {
+    if (activeTab !== 'pohon') return
     if (!chartRef.current) return
 
     const container = document.querySelector('#FamilyChart')
@@ -160,7 +163,7 @@ function App() {
     }, 300)
 
     chartInstance.current = chart
-  }, [config])
+  }, [config, activeTab])
 
   // Zoom controls
   const handleZoomIn  = () => { if (svgRef.current && manualZoom) manualZoom({ amount: 1.3,       svg: svgRef.current, transition_time: 300 }) }
@@ -188,41 +191,87 @@ function App() {
     flexShrink: 0,
   }
 
+  const TAB_STYLE = (active) => ({
+    padding: '6px 20px', borderRadius: 6, cursor: 'pointer', fontSize: 13,
+    fontWeight: active ? 600 : 400,
+    background: active ? 'rgba(90,140,255,0.25)' : 'rgba(255,255,255,0.07)',
+    border: active ? '1px solid rgba(90,140,255,0.6)' : '1px solid rgba(255,255,255,0.15)',
+    color: active ? '#7eb3ff' : '#aaa',
+    transition: 'all 0.15s',
+  })
+
   return (
-    <div style={{ width: '100%', height: '100vh', position: 'relative', backgroundColor: 'rgb(22,22,22)' }}>
+    <div style={{ width: '100%', height: '100vh', position: 'relative', backgroundColor: 'rgb(22,22,22)', display: 'flex', flexDirection: 'column' }}>
 
-      {/* Toolbar kiri atas */}
-      <div style={{ position: 'absolute', top: 16, left: 16, zIndex: 100, display: 'flex', gap: 8 }}>
-        <button
-          onClick={() => setShowConfig(v => !v)}
-          style={{ ...btnBase, width: 'auto', padding: '0 14px', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}
-        >
-          ⚙️ Konfigurasi
-        </button>
+      {/* ── Top bar ── */}
+      <div style={{
+        height: 52, flexShrink: 0,
+        display: 'flex', alignItems: 'center', gap: 8,
+        padding: '0 16px',
+        background: 'rgb(15,15,15)',
+        borderBottom: '1px solid #2a2a2a',
+        zIndex: 200,
+      }}>
+        {/* Judul */}
+        <span style={{ color: '#fff', fontWeight: 700, fontSize: 15, marginRight: 12, whiteSpace: 'nowrap' }}>
+          🌳 Silsilah Keluarga
+        </span>
+
+        {/* Tab switcher */}
+        <button onClick={() => setActiveTab('pohon')}    style={TAB_STYLE(activeTab === 'pohon')}>🌿 Pohon</button>
+        <button onClick={() => setActiveTab('sunburst')} style={TAB_STYLE(activeTab === 'sunburst')}>🔵 Sunburst</button>
+
+        {/* Spacer */}
+        <div style={{ flex: 1 }} />
+
+        {/* Konfigurasi — hanya di tab pohon */}
+        {activeTab === 'pohon' && (
+          <button
+            onClick={() => setShowConfig(v => !v)}
+            style={{ ...btnBase, width: 'auto', padding: '0 14px', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}
+          >
+            ⚙️ Konfigurasi
+          </button>
+        )}
       </div>
 
-      {/* Tombol zoom kanan bawah */}
-      <div style={{ position: 'absolute', bottom: 24, right: 24, zIndex: 100, display: 'flex', flexDirection: 'column', gap: 8 }}>
-        <button title="Zoom In"   onClick={handleZoomIn}  style={btnBase}>＋</button>
-        <button title="Zoom Out"  onClick={handleZoomOut} style={btnBase}>－</button>
-        <button title="Fit semua" onClick={handleFit}     style={{ ...btnBase, fontSize: 14 }}>⊡</button>
-        <button title="Ke akar"   onClick={handleReset}   style={{ ...btnBase, fontSize: 14 }}>⌂</button>
+      {/* ── Content area ── */}
+      <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+
+        {/* ── TAB: POHON ── */}
+        <div style={{ display: activeTab === 'pohon' ? 'block' : 'none', width: '100%', height: '100%', position: 'relative' }}>
+
+          {/* Tombol zoom kanan bawah */}
+          <div style={{ position: 'absolute', bottom: 24, right: 24, zIndex: 100, display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <button title="Zoom In"   onClick={handleZoomIn}  style={btnBase}>＋</button>
+            <button title="Zoom Out"  onClick={handleZoomOut} style={btnBase}>－</button>
+            <button title="Fit semua" onClick={handleFit}     style={{ ...btnBase, fontSize: 14 }}>⊡</button>
+            <button title="Ke akar"   onClick={handleReset}   style={{ ...btnBase, fontSize: 14 }}>⌂</button>
+          </div>
+
+          {showConfig && (
+            <Configure
+              config={config}
+              onChange={setConfig}
+              onClose={() => setShowConfig(false)}
+            />
+          )}
+
+          <div
+            id="FamilyChart"
+            className="f3"
+            ref={chartRef}
+            style={{ width: '100%', height: '100%', color: '#fff' }}
+          />
+        </div>
+
+        {/* ── TAB: SUNBURST ── */}
+        {activeTab === 'sunburst' && (
+          <div style={{ width: '100%', height: '100%' }}>
+            <SunburstChart />
+          </div>
+        )}
       </div>
-
-      {showConfig && (
-        <Configure
-          config={config}
-          onChange={setConfig}
-          onClose={() => setShowConfig(false)}
-        />
-      )}
-
-      <div
-        id="FamilyChart"
-        className="f3"
-        ref={chartRef}
-        style={{ width: '100%', height: '100vh', color: '#fff' }}
-      />
     </div>
   )
 }
