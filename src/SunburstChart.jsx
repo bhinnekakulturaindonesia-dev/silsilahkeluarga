@@ -200,9 +200,8 @@ export default function SunburstChart() {
         if (maxChars < 2) return
 
         const name = (d.data.name || '').replace(' (+)', '')
-        const parts = name.split(' ')
-        let label = name
-        if (label.length > maxChars) label = parts[0]
+        const firstName = name.split(' ')[0]
+        let label = firstName
         if (label.length > maxChars) label = label.slice(0, maxChars - 1) + '…'
 
         const deg  = midAngle * 180 / Math.PI - 90
@@ -225,8 +224,7 @@ export default function SunburstChart() {
         if (maxChars < 2) return
 
         const name = (d.person?.name || '').replace(' (+)', '')
-        let label = name
-        if (label.length > maxChars) label = name.split(' ')[0]
+        let label = name.split(' ')[0]
         if (label.length > maxChars) label = label.slice(0, maxChars - 1) + '…'
 
         const deg  = midAngle * 180 / Math.PI - 90
